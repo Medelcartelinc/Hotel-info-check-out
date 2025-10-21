@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hotel Domus Praetoria - Check-out</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 15px;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .language-selector {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 10px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .lang-btn {
+            padding: 10px 12px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+            flex: 1;
+            min-width: calc(33.333% - 10px);
+            max-width: calc(33.333% - 10px);
+        }
+        
+        .lang-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .lang-btn.active {
+            background: #4a6491;
+            color: white;
+        }
+        
+        .content {
+            padding: 20px 15px;
+            min-height: auto;
+        }
+        
+        .language-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .language-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #4a6491;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .info-section {
+            margin-bottom: 20px;
+        }
+        
+        .info-section h3 {
+            color: #4a6491;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .info-section h3 i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+        
+        .info-section p {
+            line-height: 1.5;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-info {
+            background: #e8f4ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #4a6491;
+        }
+        
+        .phone-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .phone-number {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+        }
+        
+        .phone-number i {
+            margin-right: 10px;
+            color: #4a6491;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        
+        .action-btn i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+        
+        .action-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.8rem;
+        }
+        
+        /* Ottimizzazioni per iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                border-radius: 16px;
+            }
+            .action-btn {
+                -webkit-appearance: none;
+            }
+        }
+        
+        /* Schermi molto piccoli */
+        @media (max-width: 320px) {
+            body {
+                padding: 8px;
+            }
+            .lang-btn {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+                min-width: calc(50% - 8px);
+                max-width: calc(50% - 8px);
+            }
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Schermi più grandi (tablet) */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                max-width: 500px;
+            }
+            .lang-btn {
+                min-width: calc(25% - 10px);
+                max-width: calc(25% - 10px);
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* Landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .language-selector {
+                padding: 10px;
+            }
+            .content {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hotel Domus Praetoria</h1>
+            <p class="subtitle">Informazioni Check-out</p>
+        </header>
+        
+        <div class="language-selector">
+            <button class="lang-btn active" data-lang="it">Italiano</button>
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="fr">Français</button>
+            <button class="lang-btn" data-lang="de">Deutsch</button>
+            <button class="lang-btn" data-lang="es">Español</button>
+            <button class="lang-btn" data-lang="ru">Русский</button>
+            <button class="lang-btn" data-lang="zh">中文</button>
+            <button class="lang-btn" data-lang="ko">한국어</button>
+        </div>
+        
+        <div class="content">
+            <!-- Contenuto Italiano -->
+            <div class="language-content active" id="it">
+                <h2><i class="fas fa-info-circle"></i> Informazioni Generali</h2>
+                <div class="info-section">
+                    <p>La nostra reception è aperta dalle 08:00 alle 23:00.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> Assistenza Urgente</h3>
+                    <p>Contattaci immediatamente:</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> Check-out</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> Orario</h3>
+                    <p>Check-out: 08:00 - 11:00</p>
+                    <p>Deposito bagagli gratuito fino alle 22:00</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> Partenze Anticipate</h3>
+                    <p>• Lascia le chiavi in camera</p>
+                    <p>• Inviaci un WhatsApp</p>
+                    <p>• Bagagli: indica orario ritiro</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Contattaci su WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Inglese -->
+            <div class="language-content" id="en">
+                <h2><i class="fas fa-info-circle"></i> General Information</h2>
+                <div class="info-section">
+                    <p>Our reception is open from 08:00 AM to 11:00 PM.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> Urgent Assistance</h3>
+                    <p>Contact us immediately:</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> Check-out</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> Check-out Time</h3>
+                    <p>Check-out: 08:00 AM - 11:00 AM</p>
+                    <p>Free luggage storage until 10:00 PM</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> Early Departures</h3>
+                    <p>• Leave keys in the room</p>
+                    <p>• Send us a WhatsApp</p>
+                    <p>• Luggage: indicate pick-up time</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Francese -->
+            <div class="language-content" id="fr">
+                <h2><i class="fas fa-info-circle"></i> Informations Générales</h2>
+                <div class="info-section">
+                    <p>Notre réception est ouverte de 8h00 à 23h00.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> Assistance Urgente</h3>
+                    <p>Contactez-nous immédiatement :</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> Check-out</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> Heure de Départ</h3>
+                    <p>Check-out: 8h00 - 11h00</p>
+                    <p>Consigne gratuite jusqu'à 22h00</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> Départs Anticipés</h3>
+                    <p>• Laissez les clés dans la chambre</p>
+                    <p>• Envoyez-nous un WhatsApp</p>
+                    <p>• Bagages: indiquez l'heure de récupération</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Contactez-nous sur WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Tedesco -->
+            <div class="language-content" id="de">
+                <h2><i class="fas fa-info-circle"></i> Allgemeine Informationen</h2>
+                <div class="info-section">
+                    <p>Unsere Rezeption ist von 08:00 bis 23:00 Uhr geöffnet.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> Dringende Hilfe</h3>
+                    <p>Kontaktieren Sie uns sofort:</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> Check-out</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> Check-out Zeit</h3>
+                    <p>Check-out: 08:00 - 11:00 Uhr</p>
+                    <p>Kostenlose Gepäckaufbewahrung bis 22:00 Uhr</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> Vorzeitige Abreisen</h3>
+                    <p>• Schlüssel im Zimmer lassen</p>
+                    <p>• Senden Sie uns eine WhatsApp</p>
+                    <p>• Gepäck: Abholzeit angeben</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Kontaktieren Sie uns auf WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Spagnolo -->
+            <div class="language-content" id="es">
+                <h2><i class="fas fa-info-circle"></i> Información General</h2>
+                <div class="info-section">
+                    <p>Nuestra recepción está abierta de 08:00 a 23:00.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> Asistencia Urgente</h3>
+                    <p>Contáctanos inmediatamente:</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> Check-out</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> Horario de Salida</h3>
+                    <p>Check-out: 08:00 - 11:00</p>
+                    <p>Guardaequipaje gratuito hasta las 22:00</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> Salidas Anticipadas</h3>
+                    <p>• Deja las llaves en la habitación</p>
+                    <p>• Envíanos un WhatsApp</p>
+                    <p>• Equipaje: indica hora de recogida</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Contáctanos por WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Russo -->
+            <div class="language-content" id="ru">
+                <h2><i class="fas fa-info-circle"></i> Общая Информация</h2>
+                <div class="info-section">
+                    <p>Наша рецепция работает с 08:00 до 23:00.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> Срочная Помощь</h3>
+                    <p>Свяжитесь с нами немедленно:</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> Выезд</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> Время Выезда</h3>
+                    <p>Выезд: 08:00 - 11:00</p>
+                    <p>Бесплатная камера хранения до 22:00</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> Ранний Выезд</h3>
+                    <p>• Оставьте ключи в комнате</p>
+                    <p>• Отправьте нам WhatsApp</p>
+                    <p>• Багаж: укажите время получения</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Свяжитесь с нами в WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Cinese -->
+            <div class="language-content" id="zh">
+                <h2><i class="fas fa-info-circle"></i> 一般信息</h2>
+                <div class="info-section">
+                    <p>我们的前台开放时间为08:00至23:00。</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> 紧急协助</h3>
+                    <p>立即联系我们：</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> 退房</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> 退房时间</h3>
+                    <p>退房: 08:00 - 11:00</p>
+                    <p>免费行李寄存至22:00</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> 提前退房</h3>
+                    <p>• 将钥匙留在房间</p>
+                    <p>• 发送WhatsApp给我们</p>
+                    <p>• 行李：注明取件时间</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> 通过WhatsApp联系我们
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Contenuto Coreano -->
+            <div class="language-content" id="ko">
+                <h2><i class="fas fa-info-circle"></i> 일반 정보</h2>
+                <div class="info-section">
+                    <p>저희 리셉션은 08:00부터 23:00까지 운영됩니다.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone-alt"></i> 긴급 지원</h3>
+                    <p>즉시 연락 주세요:</p>
+                    <div class="phone-numbers">
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 349 8182609
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 393 5946115
+                        </div>
+                        <div class="phone-number">
+                            <i class="fas fa-phone"></i> +39 06 4575 3570
+                        </div>
+                    </div>
+                </div>
+                
+                <h2><i class="fas fa-door-open"></i> 체크아웃</h2>
+                <div class="info-section">
+                    <h3><i class="far fa-clock"></i> 체크아웃 시간</h3>
+                    <p>체크아웃: 08:00 - 11:00</p>
+                    <p>무료 수하물 보관 ~22:00까지</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3><i class="fas fa-luggage-cart"></i> 조기 체크아웃</h3>
+                    <p>• 객실에 열쇠 두기</p>
+                    <p>• WhatsApp 메시지 보내기</p>
+                    <p>• 수하물: 수거 시간 알려주기</p>
+                </div>
+                
+                <div class="actions">
+                    <button class="action-btn whatsapp-btn" onclick="sendWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> WhatsApp으로 문의하기
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 Hotel Domus Praetoria</p>
+        </footer>
+    </div>
+
+    <script>
+        // Gestione cambio lingua
+        document.querySelectorAll('.lang-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                document.querySelectorAll('.language-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const lang = this.getAttribute('data-lang');
+                document.getElementById(lang).classList.add('active');
+            });
+        });
+        
+        // Funzione WhatsApp semplificata
+        function sendWhatsApp() {
+            const phoneNumber = "390645753570";
+            window.open(`https://wa.me/${phoneNumber}`, '_blank');
+        }
+        
+        // Rileva lingua del browser
+        function detectBrowserLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const supportedLangs = ['it', 'en', 'fr', 'de', 'es', 'ru', 'zh', 'ko'];
+            const primaryLang = browserLang.split('-')[0];
+            
+            if (supportedLangs.includes(primaryLang)) {
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-lang') === primaryLang) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                document.querySelectorAll('.language-content').forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === primaryLang) {
+                        content.classList.add('active');
+                    }
+                });
+            }
+        }
+        
+        // Previene zoom su input focus (iOS)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('touchstart', function() {}, {passive: true});
+        });
+        
+        // Inizializzazione
+        window.addEventListener('DOMContentLoaded', detectBrowserLanguage);
+    </script>
+</body>
+</html>
